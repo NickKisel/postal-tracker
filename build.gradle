@@ -1,0 +1,81 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'application'
+	id 'checkstyle'
+	id 'com.adarshr.test-logger' version '3.2.0'
+	id 'com.github.ben-manes.versions' version '0.42.0'
+	id 'org.liquibase.gradle' version '2.1.1'
+	id 'org.springdoc.openapi-gradle-plugin' version '1.3.4'
+	id 'com.github.johnrengelman.processes' version '0.5.0'
+	id 'jacoco'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+application {
+	mainClass = 'come.example.PostalTrackerApplication'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.liquibase:liquibase-core:4.10.0'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	liquibaseRuntime(
+			sourceSets.main.output,
+			'org.liquibase:liquibase-core:4.10.0',
+			'org.liquibase.ext:liquibase-hibernate5:4.10.0',
+			'org.springframework.boot:spring-boot-starter-data-jpa'
+	)
+}
+
+liquibase {
+	activities {
+		main {
+			changeLogFile 'src/main/resources/db/changelog/db.changelog-master.yaml'
+			url 'jdbc:h2:./postalTracker'
+			username 'sa'
+			password ''
+			referenceUrl 'hibernate:spring:com.example.model' +
+					'?dialect=org.hibernate.dialect.H2Dialect' +
+					'&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy'
+		}
+	}
+}
+
+testlogger {
+	showStandardStreams true
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+	}
+}
+
+checkstyle {
+	toolVersion '10.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
