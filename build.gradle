@@ -17,7 +17,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 application {
-	mainClass = 'come.example.PostalTrackerApplication'
+	mainClass = 'com.example.PostalTrackerApplication'
 }
 
 configurations {
@@ -32,6 +32,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.liquibase:liquibase-core:4.10.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

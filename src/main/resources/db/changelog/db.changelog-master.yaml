@@ -1,0 +1,29 @@
+databaseChangeLog:
+- changeSet:
+    id: 1653198962243-1
+    author: kisel (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: postal_mailsPK
+            name: id
+            type: BIGINT
+        - column:
+            name: recipient_address
+            type: VARCHAR(255)
+        - column:
+            name: recipient_name
+            type: VARCHAR(255)
+        - column:
+            name: recipient_postcode
+            type: BIGINT
+        - column:
+            name: type
+            type: VARCHAR(255)
+        tableName: postal_mails
+
